@@ -11,7 +11,12 @@ class Category(models.TextChoices):
     FRENSH = 'frensh'
     GEOGRAPHY = 'geography'
     HESTORY = 'hestory'
-    
+
+
+class Choices(models.TextChoices):
+    RENTED = 'rented' 
+    AVAILABLE = 'available'
+    LOST = 'lost'
 
 class Book(models.Model):
     title = models.CharField(max_length=200, blank=False)
@@ -21,6 +26,7 @@ class Book(models.Model):
     class_number = models.CharField(max_length=100, blank=True, null=True)
     entry_date = models.DateField(auto_now=False, blank=True, null=True)
     published_date = models.DateField(auto_now=False, blank=True, null=True)
+    status = models.CharField(max_length=200, choices=Choices.choices, default='')
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     
     def __str__(self):
@@ -58,4 +64,12 @@ class RentBook(models.Model):
         return self.type
     
 
-        
+class Archive(models.Model):
+    first_name = models.CharField(max_length=200, blank=False, default='')
+    last_name = models.CharField(max_length=200, blank=False, default='')
+    birth_date = models.DateField(default='')
+    birth_place = models.CharField(max_length=50, default='')
+    class_name = models.CharField(max_length=20)
+    
+    def __str__(self):
+        return self.first_name
